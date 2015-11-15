@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(TAG, "pos: " + pos);
                         items.set(pos, items.get(pos) + "-XXXX");
                         itemsAdapter.notifyDataSetChanged();
+                        writeItems();
                         /*Intent intent = new Intent(this, EditItemActivity.class);
                         intent.putExtra("pos", pos);
                         startActivity(intent);*/
