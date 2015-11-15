@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SimpleToDoList</string>
     <string name="add_item">ADD ITEM</string>
+    <string name="edit_item_below">Edit Item Below:</string>
+    <string name="save_txt">Save</string>
+    <string name="edit_item">Edit Item</string>
 </resources>

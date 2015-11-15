@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Button;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.content.Intent;
@@ -20,10 +19,10 @@ import org.apache.commons.io.FileUtils;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "simpletodolist_log";
-    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;
-    ListView lvItems;
+    private static final String TAG = "SimpleToDo_LOG";
+    private ArrayList<String> items;
+    private ArrayAdapter<String> itemsAdapter;
+    private ListView lvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +101,33 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapter,
                                             View item, int pos, long id) {
-                        Log.v(TAG, "pos: " + pos);
-                        items.set(pos, items.get(pos) + "-XXXX");
-                        itemsAdapter.notifyDataSetChanged();
-                        writeItems();
-                        /*Intent intent = new Intent(this, EditItemActivity.class);
+                        String data = items.get(pos);
+                        Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
                         intent.putExtra("pos", pos);
-                        startActivity(intent);*/
+                        intent.putExtra("data", data);
+                        startActivityForResult(intent, 101);
 
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        Log.i(TAG, "requestCode - " + requestCode);
+        Log.i(TAG, "resultCode - " + resultCode);
+        if (requestCode == 101) {
+            if (resultCode == RESULT_OK) {
+                String newData = intent.getStringExtra("data");
+                int position = intent.getIntExtra("pos", -1);
+                Log.i(TAG, "newData - " + newData);
+                Log.i(TAG, "position - " + position);
+                items.set(position, newData);
+                itemsAdapter.notifyDataSetChanged();
+                writeItems();
+            }
+        }
+
     }
 
     public void onAddItem(View v) {
@@ -129,10 +145,10 @@ public class MainActivity extends AppCompatActivity {
     private void readItems() {
         File todoFile = new File(getFilesDir(), "todo.txt");
         try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
+            items = new ArrayList<>(FileUtils.readLines(todoFile));
 
         } catch (IOException e) {
-            items = new ArrayList<String>();
+            items = new ArrayList<>();
         }
     }
 
@@ -147,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         Log.i(TAG, "onStart");
     }
