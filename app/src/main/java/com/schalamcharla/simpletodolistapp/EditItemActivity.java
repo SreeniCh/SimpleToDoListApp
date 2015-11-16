@@ -21,7 +21,8 @@ public class EditItemActivity extends AppCompatActivity {
         Log.i(TAG, "data: " + data);
 
         EditText etEditItem = (EditText) findViewById(R.id.tvEditItem);
-        etEditItem.setText(data);
+        //etEditItem.setText(data);
+        etEditItem.append(data);
     }
 
     public void onSaveItem(View v) {
