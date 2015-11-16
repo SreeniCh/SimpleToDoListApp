@@ -14,6 +14,7 @@
         android:id="@+id/btnAddItem"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:width="100dp"
         android:onClick="onAddItem" />
 
@@ -31,6 +32,7 @@
         android:id="@+id/etNewItem"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/btnAddItem"
+        android:layout_alignLeft="@+id/lvItems"
+        android:width="250dp"
         android:inputType="text" />
 </RelativeLayout>
