@@ -12,7 +12,8 @@
         android:id="@+id/lvItems"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:background="@android:color/transparent"
+        android:divider="@color/colorPrimaryDark"
+        android:dividerHeight="1dp"/>
         />
 
 </RelativeLayout>

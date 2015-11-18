@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         Log.i(TAG, "requestCode - " + requestCode);
         Log.i(TAG, "resultCode - " + resultCode);
-        String newData = intent.getStringExtra("data");
-        Log.i(TAG, "newData - " + newData);
         refreshUI();
     }
 

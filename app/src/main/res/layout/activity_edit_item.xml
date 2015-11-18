@@ -25,6 +25,7 @@
         android:layout_marginTop="45dp"
         android:layout_alignStart="@+id/tveib"
         android:width="275dp"
+        android:textColor="@color/colorText"
         android:inputType="text" />
 
 </RelativeLayout>
