@@ -1,27 +1,26 @@
 package com.schalamcharla.simpletodolistapp;
 
-import java.io.IOException;
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.List;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.content.Intent;
-import java.io.File;
-
+import android.view.Menu;
+import android.view.MenuItem;
 import android.util.Log;
 
-import org.apache.commons.io.FileUtils;
+import com.schalamcharla.simpletodolistapp.util.Item;
+import com.schalamcharla.simpletodolistapp.util.ItemsAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "SimpleToDo_LOG";
-    private ArrayList<String> items;
-    private ArrayAdapter<String> itemsAdapter;
+    public ArrayList<Item> items;
+    private ItemsAdapter itemsAdapter;
     private ListView lvItems;
 
     @Override
@@ -30,70 +29,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onStart");
 
+        items = new ArrayList<>();
         lvItems = (ListView) findViewById(R.id.lvItems);
-        //items = new ArrayList<>();
-        readItems();
-        itemsAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
-                items);
+        itemsAdapter = new ItemsAdapter(this, items);
         lvItems.setAdapter(itemsAdapter);
+        refreshUI();
 
-        /*Button buttonAddItem = (Button) findViewById(R.id.btnAddItem);
-        final EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-
-        buttonAddItem.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        String text = etNewItem.getText().toString();
-                        Log.i(TAG, "input text - " + text);
-                        if (!text.equals("")) {
-                            Log.i(TAG, "not equals");
-                            itemsAdapter.add(text);
-                            etNewItem.setText("");
-                        }
-                    }
-                }
-        );*/
-
-        setupListViewOnLongListener();
+        //OnClick Listener for ListView
         setupListViewOnClickListener();
     }
 
-    /*public void launchEditItemActivity(View view) {
-        Intent intent = new Intent(this, EditItemActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-    }*/
-
-    /*private void setupListViewListener() {
-        lvItems.setOnLongClickListener(
-                new AdapterView.OnLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapter,
-                                                   View item,
-                                                   int pos,
-                                                   long id) {
-                        items.remove(pos);
-                        itemsAdapter.notifyDataSetChanged();
-                        return true;
-                    }
-                }
-        );
-    }*/
-
-    private void setupListViewOnLongListener() {
-        lvItems.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapter,
-                                                   View item, int pos, long id) {
-                        Log.v(TAG, "pos: " + pos);
-                        items.remove(pos);
-                        itemsAdapter.notifyDataSetChanged();
-                        writeItems();
-                        return true;
-                    }
-                });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_add_task:
+                addItem();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
     private void setupListViewOnClickListener() {
         lvItems.setOnItemClickListener(
@@ -101,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapter,
                                             View item, int pos, long id) {
-                        String data = items.get(pos);
-                        Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
-                        intent.putExtra("pos", pos);
-                        intent.putExtra("data", data);
+                        Item data = items.get(pos);
+                        Intent intent = new Intent(MainActivity.this, ViewItemActivity.class);
+                        //intent.putExtra("pos", pos);
+                        intent.putExtra("data", data.getName());
                         startActivityForResult(intent, 101);
 
                     }
@@ -116,50 +80,25 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         Log.i(TAG, "requestCode - " + requestCode);
         Log.i(TAG, "resultCode - " + resultCode);
-        if (requestCode == 101) {
-            if (resultCode == RESULT_OK) {
-                String newData = intent.getStringExtra("data");
-                int position = intent.getIntExtra("pos", -1);
-                Log.i(TAG, "newData - " + newData);
-                Log.i(TAG, "position - " + position);
-                items.set(position, newData);
-                itemsAdapter.notifyDataSetChanged();
-                writeItems();
-            }
-        }
+        String newData = intent.getStringExtra("data");
+        Log.i(TAG, "newData - " + newData);
+        refreshUI();
+    }
+
+    //refresh list and notify
+    private void refreshUI() {
+        List<Item> listItems = Item.listAll(Item.class);
+        items.clear();
+        items.addAll(listItems);
+        itemsAdapter.notifyDataSetChanged();
 
     }
 
-    public void onAddItem(View v) {
-        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        String text = etNewItem.getText().toString();
-        if (!text.equals("")) {
-            Log.i(TAG, "not equals");
-            itemsAdapter.add(text);
-            etNewItem.setText("");
-            writeItems();
-        }
-
-    }
-
-    private void readItems() {
-        File todoFile = new File(getFilesDir(), "todo.txt");
-        try {
-            items = new ArrayList<>(FileUtils.readLines(todoFile));
-
-        } catch (IOException e) {
-            items = new ArrayList<>();
-        }
-    }
-
-    private void writeItems() {
-        File todoFile = new File(getFilesDir(), "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile, items);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    //User wants to create a task
+    public void addItem() {
+        Log.i(TAG, "add Item: list size: " + items.size());
+        Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
+        startActivityForResult(intent, 102);
     }
 
     @Override
