@@ -1,6 +1,6 @@
 package com.schalamcharla.simpletodolistapp;
 
-import android.content.Context;
+import android.widget.Toast;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,6 +93,9 @@ public class AddItemActivity extends AppCompatActivity {
             newItem.setName(taskTitle);
             newItem.save();
 
+            Toast.makeText(AddItemActivity.this,
+                    "Task has been added successfully",
+                    Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intent);
             finish();
         }

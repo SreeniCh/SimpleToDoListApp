@@ -34,8 +34,8 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         itemName.setText(Item.name);
 
         //TBD: Populate future fields such Priotity
-        TextView itemStatus = (TextView) convertView.findViewById(R.id.tvStatus);
-        itemStatus.setText(String.valueOf(Item.getID()));
+        //TextView itemStatus = (TextView) convertView.findViewById(R.id.tvStatus);
+        //itemStatus.setText(String.valueOf(Item.getID()));
 
                 // Return the completed view to render on screen
         return convertView;

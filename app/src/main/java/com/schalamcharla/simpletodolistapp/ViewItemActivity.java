@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.widget.Toast;
 
 import com.schalamcharla.simpletodolistapp.util.Item;
 //import com.schalamcharla.simpletodolistapp.util.ItemsAdapter;
@@ -103,6 +104,9 @@ public class ViewItemActivity extends AppCompatActivity {
         Item specificItem = Item.findById(Item.class, itemID);
         //List<Item> specificItem = Item.find(Item.class, "name=?", data);
         specificItem.delete();
+        Toast.makeText(ViewItemActivity.this,
+                "Task has been removed successfully",
+                Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK, intent);
         finish();
     }
