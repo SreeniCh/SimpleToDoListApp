@@ -20,7 +20,7 @@
         android:textColor="@color/colorText"
         android:text="Name" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -30,7 +30,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:gravity="bottom"
-        android:text="DONE" />
+        android:text="DONE" />-->
     <!--<TextView
         android:id="@+id/tvHome"
         android:layout_width="wrap_content"
