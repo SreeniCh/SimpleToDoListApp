@@ -13,10 +13,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/tvStatus"
-        android:layout_alignBottom="@+id/tvStatus"
         android:gravity="bottom"
-        android:width="200dp"
+        android:width="300dp"
         android:textColor="@color/colorText"
         android:text="Name" />
 
