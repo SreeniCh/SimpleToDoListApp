@@ -9,16 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.schalamcharla.simpletodolistapp.ViewItemActivity">
 
-    <TextView
+
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/taskTextView"
+        android:id="@+id/lvViewTask"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="20dp"
-        android:textColor="@color/colorText"
-        android:gravity="center_vertical"/>
-
+        android:divider="@color/colorPrimaryDark"/>
 </RelativeLayout>

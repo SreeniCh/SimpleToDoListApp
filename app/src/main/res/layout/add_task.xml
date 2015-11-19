@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvAddTaskLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/tvStatus"
+        android:layout_alignBottom="@+id/tvStatus"
+        android:gravity="bottom"
+        android:width="100dp"
+        android:textColor="@color/colorText"
+        android:text="@string/task_title" />
+
+    <EditText
+        android:id="@+id/etAddTaskValue"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="20dp"
+        android:textColor="@color/colorText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/tvAddTaskLabel"
+        android:gravity="bottom"
+        android:hint="@string/hint_additem"
+        android:text="Title value" />
+
+</RelativeLayout>

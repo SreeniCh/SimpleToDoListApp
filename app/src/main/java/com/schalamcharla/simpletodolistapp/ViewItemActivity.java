@@ -6,32 +6,78 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+//import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import com.schalamcharla.simpletodolistapp.util.Item;
+//import com.schalamcharla.simpletodolistapp.util.ItemsAdapter;
+import com.schalamcharla.simpletodolistapp.util.ViewTask;
+import com.schalamcharla.simpletodolistapp.util.ViewTaskAdapter;
 
-import java.util.List;
+import java.util.ArrayList;
+//import java.util.List;
 
 public class ViewItemActivity extends AppCompatActivity {
     private static final String TAG = "ViewItem_Log";
     //private int position = 0;
-    private String data;
+    private long itemID;
+
+    private ArrayList<ViewTask> taskDetails;
+    private ViewTaskAdapter taskAdapter;
+    private ListView taskViewList;
+    private ViewTask viewTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_item);
 
-        //position = getIntent().getIntExtra("pos", 0);
-        data = getIntent().getStringExtra("data");
-        //Log.i(TAG, "Position: " + position);
-        Log.i(TAG, "data: " + data);
+        itemID = getIntent().getLongExtra("id", 0);
+        Log.i(TAG, "OnCreate - ID: " + itemID);
 
-        TextView textView = (TextView)findViewById(R.id.taskTextView);
-        textView.setText(data);
+        taskDetails = new ArrayList<>();
+        taskViewList = (ListView) findViewById(R.id.lvViewTask);
+        taskAdapter = new ViewTaskAdapter(this, taskDetails);
+        taskViewList.setAdapter(taskAdapter);
+        loadUI();
+
+
+        //data = getIntent().getStringExtra("data");
+        //Log.i(TAG, "data: " + data);
+
+        //TextView textView = (TextView)findViewById(R.id.taskTextView);
+        //textView.setText(data);
+    }
+
+    private void loadUI() {
+        //clear the list.
+        taskDetails.clear();
+        Item specificItem = Item.findById(Item.class, itemID);
+        viewTask = new ViewTask(
+                "Task title: ",
+                specificItem.getName());
+        taskDetails.add(viewTask);
+
+        //TBD: more fields
+        /*
+        // priority field
+        viewTask = new ViewTask(
+                "Priority: ",
+                specificItem.getPriority());
+        taskDetails.add(viewTask);
+
+        // Status Field
+        viewTask = new ViewTask(
+                "Status: ",
+                specificItem.getStatus());
+        taskDetails.add(viewTask);
+         */
+
+        taskAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -43,19 +89,20 @@ public class ViewItemActivity extends AppCompatActivity {
     public void editItem() {
         Log.i(TAG, "onEditItem");
         Intent intent = new Intent(ViewItemActivity.this, EditItemActivity.class);
-        TextView textView = (TextView)findViewById(R.id.taskTextView);
-        String newData = textView.getText().toString();
+        //TextView textView = (TextView)findViewById(R.id.taskTextView);
+        //String newData = textView.getText().toString();
         //intent.putExtra("pos", position);
-        intent.putExtra("data", newData);
-        Log.i(TAG, "in editItem fun - data: " + newData);
+        intent.putExtra("id", itemID);
+        Log.i(TAG, "in editItem fun - id: " + itemID);
         startActivityForResult(intent, 101);
     }
 
     public void deleteItem() {
         Log.i(TAG, "onDeleteItem");
         Intent intent = new Intent();
-        List<Item> specificItem = Item.find(Item.class, "name=?", data);
-        specificItem.get(0).delete();
+        Item specificItem = Item.findById(Item.class, itemID);
+        //List<Item> specificItem = Item.find(Item.class, "name=?", data);
+        specificItem.delete();
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -98,8 +145,7 @@ public class ViewItemActivity extends AppCompatActivity {
                 int position = intent.getIntExtra("pos", -1);
                 Log.i(TAG, "newData - " + newData);
                 Log.i(TAG, "position - " + position);
-                TextView textView = (TextView)findViewById(R.id.taskTextView);
-                textView.setText(newData);
+                loadUI();
             }
         }
         //finish the current activity and go back to main Activity.

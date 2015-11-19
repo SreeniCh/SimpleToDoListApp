@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.schalamcharla.simpletodolistapp.AddItemActivity">
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -28,6 +28,15 @@
         android:layout_alignStart="@+id/tveib2"
         android:textColor="@color/colorText"
         android:width="275dp"
-        android:inputType="text" />
+        android:inputType="text" />-->
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvAddTask"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:divider="@color/colorPrimaryDark"/>
 
 </RelativeLayout>

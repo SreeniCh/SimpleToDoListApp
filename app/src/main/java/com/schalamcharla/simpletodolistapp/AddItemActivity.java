@@ -8,20 +8,64 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ListView;
+
+import com.schalamcharla.simpletodolistapp.util.AddTaskAdapter;
+import com.schalamcharla.simpletodolistapp.util.EditTaskAdapter;
 import com.schalamcharla.simpletodolistapp.util.Item;
+import com.schalamcharla.simpletodolistapp.util.ViewTask;
+
+import java.util.ArrayList;
 
 public class AddItemActivity extends AppCompatActivity {
     private static final String TAG = "AddItem_LOG";
+    private long itemID;
+
+    private ArrayList<ViewTask> taskDetails;
+    private AddTaskAdapter taskAdapter;
+    private ListView taskViewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        //int position = getIntent().getIntExtra("pos", 0);
-        //String data = getIntent().getStringExtra("data");
 
-        EditText etEditItem = (EditText) findViewById(R.id.tvEditItem2);
+        itemID = getIntent().getLongExtra("id", 0);
+        Log.i(TAG, "OnCreate - ID: " + itemID);
+
+        taskDetails = new ArrayList<>();
+        taskViewList = (ListView) findViewById(R.id.lvAddTask);
+        taskAdapter = new AddTaskAdapter(this, taskDetails);
+        taskViewList.setAdapter(taskAdapter);
+        loadUI();
+    }
+
+    private void loadUI() {
+        //clear the list.
+        taskDetails.clear();
+        //Item specificItem = Item.findById(Item.class, itemID);
+        //Log.i(TAG, "test id: " + itemID);
+
+        taskDetails.add(new ViewTask("Item title: ", null));
+
+        //TBD: more fields
+        /*
+        // priority field
+        viewTask = new ViewTask(
+                "Priority: ",
+                specificItem.getPriority());
+        taskDetails.add(viewTask);
+
+        // Status Field
+        viewTask = new ViewTask(
+                "Status: ",
+                specificItem.getStatus());
+        taskDetails.add(viewTask);
+         */
+
+        taskAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -31,17 +75,24 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void saveItem() {
+        ViewTask v;
         Log.i(TAG, "onSaveItem");
+
         Intent intent = new Intent();
-        EditText etEditItem = (EditText) findViewById(R.id.tvEditItem2);
-        String newData = etEditItem.getText().toString();
-        Item item = new Item(newData);
-        item.save();
-        Log.i(TAG, newData);
-        //TBD: write to DB
-        if (!newData.equals("")) {
-            intent.putExtra("data", newData);
-            //intent.putExtra("pos", 0);
+        Item newItem;
+
+        //read the edited content from views
+        EditText etTaskTitle = (EditText) findViewById(R.id.etAddTaskValue);
+        String taskTitle = etTaskTitle.getText().toString();
+
+        //following check helps
+        //1. avoids saving the null data
+        //2. keeps the user stay on this activity.
+        if (taskTitle != null && !taskTitle.isEmpty()) {
+            newItem = new Item();
+            newItem.setName(taskTitle);
+            newItem.save();
+
             setResult(RESULT_OK, intent);
             finish();
         }

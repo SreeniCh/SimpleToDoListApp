@@ -7,7 +7,7 @@ import com.orm.SugarRecord;
  * Created by schalamcharla on 11/18/15.
  */
 public class Item extends SugarRecord<Item> {
-    //int id;
+    long id;
     String name;
     //String _taskDetails;
     //Date _date;
@@ -16,23 +16,26 @@ public class Item extends SugarRecord<Item> {
 
     public Item() {}
 
+    /*public Item(int id) {
+        this.id = id;
+    }*/
+
     //public Task(int id, String taskName) {
     public Item(String name) {
         //this.id = id;
         this.name = name;
     }
-
-    /*public int getID(){
-        return this.id;
-    }
-    public void setID(int id){
+    public Item(long id, String name) {
         this.id = id;
-    }*/
-
-    public String getName(){
-        return this.name;
+        this.name = name;
     }
 
+    //Getters
+    public long getID(){ return this.id; }
+    public String getName() { return this.name; }
+
+    // Setters
+    public void setID(int id) { this.id = id; }
     public void setName(String name){
         this.name = name;
     }

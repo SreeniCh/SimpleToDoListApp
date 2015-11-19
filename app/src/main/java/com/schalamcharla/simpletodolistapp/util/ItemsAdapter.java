@@ -33,7 +33,11 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         // Populate the data into the template view using the data object
         itemName.setText(Item.name);
 
-        // Return the completed view to render on screen
+        //TBD: Populate future fields such Priotity
+        TextView itemStatus = (TextView) convertView.findViewById(R.id.tvStatus);
+        itemStatus.setText(String.valueOf(Item.getID()));
+
+                // Return the completed view to render on screen
         return convertView;
     }
 }

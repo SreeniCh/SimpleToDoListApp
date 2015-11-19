@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         Item data = items.get(pos);
                         Intent intent = new Intent(MainActivity.this, ViewItemActivity.class);
                         //intent.putExtra("pos", pos);
-                        intent.putExtra("data", data.getName());
+                        intent.putExtra("id", data.getID());
                         startActivityForResult(intent, 101);
 
                     }

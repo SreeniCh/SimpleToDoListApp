@@ -23,7 +23,7 @@
             android:label="@string/view_item" />
         <activity
             android:name=".AddItemActivity"
-            android:label="@string/view_item" >
+            android:label="@string/add_item" >
         </activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
