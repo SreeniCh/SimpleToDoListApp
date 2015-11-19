@@ -1,6 +1,6 @@
 ### SimpleToDoListApp
 
-This is my first android project and enabled me in learning bunch of android fundamentals, android dev API, diagnostic tools and more over fun :-).
+This is an android project and it enabled me in learning a bunch of android fundamentals, android dev API, diagnostic tools and more over.. the fun :-).
 
 ##### App features
 * Add a new task
@@ -15,6 +15,6 @@ This is my first android project and enabled me in learning bunch of android fun
 * Backgroound colors
 * Various views
 
-Check out the walk-through here:
+##### Check out the walk-through here:
 
 ![walkthrough](todolist-walkthrough.gif)
