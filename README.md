@@ -7,7 +7,6 @@ This is my first android project and enabled me in learning bunch of android fun
 * Update a task
 * Remove a task
 * persistence data storage is assured with Sqlite3
-* 
 
 ##### Android features used in this app includes,
 * Custom Adapters
