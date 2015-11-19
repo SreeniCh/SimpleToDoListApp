@@ -12,7 +12,7 @@ This is an android project and it enabled me in learning a bunch of android fund
 * Custom Adapters
 * SQLLite3 (Sugar ORM instrumentation)
 * DialogFragments
-* Backgroound colors
+* Background colors and menu options on the title bar
 * Various views
 
 ##### Check out the walk-through here:
